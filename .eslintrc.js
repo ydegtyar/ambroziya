@@ -48,6 +48,9 @@ module.exports = {
     ],
     'vue/valid-v-slot': 'error',
   },
+  globals: {
+    L: true,
+  },
   overrides: [
     {
       files: ['src/**/*', 'tests/unit/**/*', 'tests/e2e/**/*'],

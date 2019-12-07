@@ -27,6 +27,7 @@ module.exports = {
     // with CSS modules
     'selector-class-pattern': /^[a-z][a-zA-Z]*(-(enter|leave)(-(active|to))?)?$/,
     'selector-id-pattern': /^[a-z][a-zA-Z]*$/,
+    'declaration-empty-line-before': 'always',
     // Limit the number of universal selectors in a selector,
     // to avoid very slow selectors
     'selector-max-universal': 1,

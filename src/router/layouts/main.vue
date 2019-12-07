@@ -1,5 +1,5 @@
 <script>
-import NavBar from '@components/nav-bar.vue'
+import NavBar from '../../components/nav-bar.vue'
 
 export default {
   components: { NavBar },
@@ -7,18 +7,25 @@ export default {
 </script>
 
 <template>
-  <div :class="$style.container">
+  <div class="overlayContainer">
     <NavBar />
     <slot />
   </div>
 </template>
 
-<style lang="scss" module>
-@import '@design';
-
-.container {
-  min-width: $size-content-width-min;
-  max-width: $size-content-width-max;
-  margin: 0 auto;
+<style lang="scss" scoped>
+.overlayContainer {
+  display: flex;
+  width: 100%;
 }
 </style>
+
+<!--<style lang="scss" module>-->
+<!--@import '@design';-->
+
+<!--.container {-->
+<!--  min-width: $size-content-width-min;-->
+<!--  max-width: $size-content-width-max;-->
+<!--  margin: 0 auto;-->
+<!--}-->
+<!--</style>-->

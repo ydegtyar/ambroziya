@@ -49,25 +49,17 @@ export default {
 <style lang="scss" scoped>
 .overlay {
   position: fixed;
-
   z-index: 1;
-
   width: 100vw;
-
   height: 100vh;
 }
 
 .mapHolder {
   position: fixed;
-
   top: 0;
-
   left: 0;
-
   z-index: 0;
-
   width: 100vw;
-
   height: 100vh;
 }
 </style>
@@ -79,9 +71,9 @@ export default {
 
 // Set your colors
 $primary: #01b636;
-$primary-invert: findcolorinvert($primary);
+$primary-invert: #fe49c9;
 $twitter: #7ed1ea;
-$twitter-invert: findcolorinvert($twitter);
+$twitter-invert: #812e15;
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (

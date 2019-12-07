@@ -38,6 +38,11 @@ export default {
 
 <template>
   <ul :class="$style.container">
+    <b-button type="is-link">
+      <router-link :to="login">
+        Login
+      </router-link>
+    </b-button>
     <NavBarRoutes :routes="persistentNavRoutes" />
     <NavBarRoutes v-if="loggedIn" :routes="loggedInNavRoutes" />
     <NavBarRoutes v-else :routes="loggedOutNavRoutes" />

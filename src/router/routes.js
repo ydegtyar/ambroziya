@@ -10,9 +10,17 @@ export default [
         path: '/login',
         name: 'login',
         props: {
-          isComponentModalActive: true
+          isComponentModalActive: true,
         },
         component: () => lazyLoadView(import('./views/login.vue')),
+      },
+      {
+        path: '/bush',
+        name: 'bush',
+        props: {
+          modalActive: true,
+        },
+        component: () => lazyLoadView(import('./views/Bush.vue')),
       },
     ],
   },

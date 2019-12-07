@@ -6,13 +6,24 @@ import '@components/_globals'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 
-import { LMap, LTileLayer, LMarker } from 'vue2-leaflet'
-// import { Icon } from 'leaflet'
+import { LMap, LTileLayer, LMarker, LIcon, LTooltip } from 'vue2-leaflet'
+import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
 Vue.component('l-map', LMap)
 Vue.component('l-tile-layer', LTileLayer)
 Vue.component('LMarker', LMarker)
+Vue.component('l-icon', LIcon)
+Vue.component('l-tooltip', LTooltip)
+
+
+delete Icon.Default.prototype._getIconUrl
+
+Icon.Default.mergeOptions({
+  iconRetinaUrl: '/public/ambrozia/140/ambr-green.png',
+  iconUrl: '/public/ambrozia/140/ambr-green.png',
+  shadowUrl: '/public/ambrozia/370/ambr_shadow.png',
+})
 
 // Don't warn about using the dev version of Vue in development.
 Vue.config.productionTip = process.env.NODE_ENV === 'production'

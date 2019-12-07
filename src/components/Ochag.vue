@@ -6,7 +6,9 @@ import { LCircleMarker } from "vue2-leaflet"
       :radius="radius"
       :color="color"
   >
-    <l-tooltip>{{description}}</l-tooltip>
+    <l-tooltip>
+      {{description}}
+    </l-tooltip>
   </l-circle-marker>
 </template>
 

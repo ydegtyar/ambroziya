@@ -66,6 +66,7 @@ export default {
       trap-focus
       aria-role="dialog"
       aria-modal
+      :can-cancel="false"
       @close="back"
   >
     <div class="modal-card" style="width: auto">
@@ -73,9 +74,9 @@ export default {
         <p class="modal-card-title">Login</p>
       </header>
       <section class="modal-card-body">
-        <b-field label="username">
+        <b-field label="Username">
           <b-input
-              type="username"
+              type="text"
               :value="username"
               placeholder="Your username"
               required>
@@ -93,35 +94,11 @@ export default {
         </b-field>
       </section>
       <footer class="modal-card-foot">
-        <button class="button" type="button" @click="back()">Close</button>
+        <button class="button" type="button" @click="back">Close</button>
         <button class="button is-primary">Login</button>
       </footer>
     </div>
   </b-modal>
-  <!--  <Layout>-->
-  <!--    <form :class="$style.form" @submit.prevent="tryToLogIn">-->
-  <!--      <BaseInputText-->
-  <!--        v-model="username"-->
-  <!--        name="username"-->
-  <!--        :placeholder="placeholders.username"-->
-  <!--      />-->
-  <!--      <BaseInputText-->
-  <!--        v-model="password"-->
-  <!--        name="password"-->
-  <!--        type="password"-->
-  <!--        :placeholder="placeholders.password"-->
-  <!--      />-->
-  <!--      <BaseButton :disabled="tryingToLogIn" type="submit">-->
-  <!--        <BaseIcon v-if="tryingToLogIn" name="sync" spin />-->
-  <!--        <span v-else>-->
-  <!--          Log in-->
-  <!--        </span>-->
-  <!--      </BaseButton>-->
-  <!--      <p v-if="authError">-->
-  <!--        There was an error logging in to your account.-->
-  <!--      </p>-->
-  <!--    </form>-->
-  <!--  </Layout>-->
 </template>
 
 <style lang="scss" module>

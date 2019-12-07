@@ -14,9 +14,24 @@
           :options="{ zoomControl: false }"
           @click="mapClicked"
       >
-        <l-control-zoom position="bottomleft"></l-control-zoom>
+        <l-control-zoom position="bottomleft"/>
         <ochag :latlng="circle.center" :radius="zoom"/>
-        <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+        <l-tile-layer :url="url"/>
+        <l-marker v-if="newMarkerShow" :lat-lng="newMarkerCoord">
+          <l-tooltip :options="{ permanent: true, interactive: true }">
+            <b-button type="is-danger" @click.stop="goToNewBush">Add new bush!</b-button>
+          </l-tooltip>
+          <l-icon
+              :icon-url="'/ambrozia/140/ambr-red.png'"
+              :icon-size="[70, 70]"
+              :icon-anchor="[30, 60]"
+              :shadow-url="'/ambrozia/140/ambr-shadow.png'"
+              :shadow-size="[50, 64]"
+              :shadow-anchor="[4, 62]"
+              :popup-anchor="[-3, -76]"
+
+          />
+        </l-marker>
       </l-map>
     </div>
   </div>
@@ -26,16 +41,27 @@
 import appConfig from './../src/app.config'
 import { LMarker, LPopup, LControlZoom } from 'vue2-leaflet'
 import Ochag from './components/Ochag.vue'
+import { mapGetters } from 'vuex'
+import store from './state/store'
+
+// import BushIcon from './components/BushIcon.js'
+// import BushIcon from './components/BushIcon.vue'
 
 export default {
   components: {
-    LMarker,
+    'l-marker': LMarker,
     'l-popup': LPopup,
     'l-control-zoom': LControlZoom,
     'ochag': Ochag,
+    // 'l-icon':LIcon
+    // 'bushIcon': BushIcon,
   },
   data() {
     return {
+      newMarkerShow: false,
+      newMarkerCoord: {},
+
+      // bushIcon: BushIcon,
       zoom: 14,
 
       circle: { center: L.latLng(48.50432, 32.261491), radius: this.zoom },
@@ -43,17 +69,17 @@ export default {
       center: L.latLng(48.50432, 32.261491),
 
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      attribution:
-        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       marker: L.latLng(48.50432, 32.261491),
 
       clickCount: 0,
       delay: 300,
     }
   },
-  mounted() {
-    // console.log(this.marker)
-    // console.log(L)
+  async mounted() {
+    store.dispatch('bushes/get')
+  },
+  computed: {
+    ...mapGetters(['bushes']),
   },
   page: {
     // All subcomponent titles will be injected into this template.
@@ -69,8 +95,7 @@ export default {
       if (this.clickCount === 1) {
         this.clickTimer = setTimeout(() => {
           this.clickCount = 0
-          console.log(e)
-          this.spawnPopup(e)
+          this.showBush(e)
           this.$emit('single-click', e)
         }, this.delay)
       } else if (this.clickCount === 2) {
@@ -79,11 +104,13 @@ export default {
         this.$emit('double-click')
       }
     },
-    spawnPopup(e) {
-
-      console.log(e, 'spanw')
-      // marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
-      // const { latlng: { lat, lng } } = e
+    showBush(e) {
+      this.newMarkerCoord = e.latlng
+      this.newMarkerShow = true
+    },
+    goToNewBush() {
+      const { lat, lng } = this.newMarkerCoord
+      this.$router.push({ name: 'bush', query: { lat, lng } })
     },
   },
 }
@@ -234,5 +261,9 @@ export default {
 
   #nprogress .bar {
     background: $color-link-text;
+  }
+
+  .in-marker-popup {
+    position: absolute;
   }
 </style>

@@ -21,12 +21,27 @@
           Maybe you have photos or description
           <b-field label="description">
             <b-input
-                type="description"
+                type="text"
                 :value="description"
                 placeholder="What you think about this bush"
                 required>
             </b-input>
           </b-field>
+          <b-field label="Photo">
+            <b-upload
+                :value="file"
+                type="file"
+                accept="image/*"
+                capture="camera"
+                multiple
+            >
+              <a class="button is-primary">
+                <b-icon icon="upload"></b-icon>
+                <span>Click to upload</span>
+              </a>
+            </b-upload>
+          </b-field>
+
           We'll try notify some responsible peoples
 
           <!--        <b-field label="Password">-->
@@ -63,6 +78,7 @@ export default {
   },
   data() {
     return {
+      file: null,
       description: '',
     }
   },

@@ -1,0 +1,25 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.netlify.ambrozone",
+    "sha256_cert_fingerprints":
+    ["F9:24:AC:71:65:E3:6A:FC:43:E5:FC:7E:AB:E4:DF:C0:45:C6:70:AA:9B:D1:4F:5C:86:88:1C:EF:A2:46:32:6E"]
+  }
+},
+{
+  "relation": ["delegate_permission/common.get_login_creds"],
+  "target": {
+    "namespace": "web",
+    "site": "https://ambrozone.netlify.com"
+  }
+},
+{
+  "relation": ["delegate_permission/common.get_login_creds"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.netlify.ambrozone",
+    "sha256_cert_fingerprints":
+    ["F9:24:AC:71:65:E3:6A:FC:43:E5:FC:7E:AB:E4:DF:C0:45:C6:70:AA:9B:D1:4F:5C:86:88:1C:EF:A2:46:32:6E"]
+  }
+}]

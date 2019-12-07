@@ -9,6 +9,9 @@ import 'buefy/dist/buefy.css'
 import { LMap, LTileLayer, LMarker, LIcon, LTooltip } from 'vue2-leaflet'
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+const  SocialSharing = require('vue-social-sharing');
+
+Vue.use(SocialSharing);
 
 Vue.component('l-map', LMap)
 Vue.component('l-tile-layer', LTileLayer)

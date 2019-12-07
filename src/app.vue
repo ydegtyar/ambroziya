@@ -15,23 +15,23 @@
           @click="mapClicked"
       >
         <l-control-zoom position="bottomleft"/>
-        <ochag :latlng="circle.center" :radius="zoom"/>
-        <l-tile-layer :url="url"/>
+        <ochag :latlng="circle.center" :radius="zoom" @click.stop.prevent="showOchag"/>
         <l-marker v-if="newMarkerShow" :lat-lng="newMarkerCoord">
           <l-tooltip :options="{ permanent: true, interactive: true }">
             <b-button type="is-danger" @click.stop="goToNewBush">Add new bush!</b-button>
           </l-tooltip>
           <l-icon
-              :icon-url="'/ambrozia/140/ambr-red.png'"
+              :icon-url="'/ambrozia/140/ambr-green.png'"
               :icon-size="[70, 70]"
               :icon-anchor="[30, 60]"
               :shadow-url="'/ambrozia/140/ambr-shadow.png'"
               :shadow-size="[50, 64]"
               :shadow-anchor="[4, 62]"
               :popup-anchor="[-3, -76]"
-
           />
         </l-marker>
+        <ochag v-for="bush in bushes" :key="bush.id" :latlng="bush.lat" :radius="zoom" @click.stop="showOchag"/>
+        <l-tile-layer :url="url"/>
       </l-map>
     </div>
   </div>
@@ -39,13 +39,10 @@
 
 <script>
 import appConfig from './../src/app.config'
-import { LMarker, LPopup, LControlZoom } from 'vue2-leaflet'
+import { LMarker, LPopup, LControlZoom, LFeatureGroup, LGridLayer } from 'vue2-leaflet'
 import Ochag from './components/Ochag.vue'
 import { mapGetters } from 'vuex'
 import store from './state/store'
-
-// import BushIcon from './components/BushIcon.js'
-// import BushIcon from './components/BushIcon.vue'
 
 export default {
   components: {
@@ -53,6 +50,8 @@ export default {
     'l-popup': LPopup,
     'l-control-zoom': LControlZoom,
     'ochag': Ochag,
+    'l-feature-group': LFeatureGroup,
+    'l-grid-layer': LGridLayer
     // 'l-icon':LIcon
     // 'bushIcon': BushIcon,
   },
@@ -77,9 +76,13 @@ export default {
   },
   async mounted() {
     store.dispatch('bushes/get')
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.centerByPosition)
+    }
   },
   computed: {
-    ...mapGetters(['bushes']),
+    // ...mapGetters('bushes', ['bushes']),
   },
   page: {
     // All subcomponent titles will be injected into this template.
@@ -89,7 +92,19 @@ export default {
     },
   },
   methods: {
+    featGroup(e) {
+      console.log(e, 'fet')
+    },
+    centerByPosition(position) {
+      // const { coords: { latitude, longitude } } = position
+      // this.center = L.latLng(latitude, longitude)
+      // this.zoom = 14
+    },
+    showOchag(e) {
+      console.log('onchage', e)
+    },
     mapClicked(e) {
+      console.log(e.target)
       this.clickCount++
 
       if (this.clickCount === 1) {
@@ -101,7 +116,7 @@ export default {
       } else if (this.clickCount === 2) {
         clearTimeout(this.clickTimer)
         this.clickCount = 0
-        this.$emit('double-click')
+        this.$emit('double-click', e)
       }
     },
     showBush(e) {
@@ -110,7 +125,7 @@ export default {
     },
     goToNewBush() {
       const { lat, lng } = this.newMarkerCoord
-      this.$router.push({ name: 'bush', query: { lat, lng } })
+      this.$router.push({ name: 'newBush', query: { lat, lng } })
     },
   },
 }
@@ -121,7 +136,6 @@ export default {
     position: fixed;
     z-index: 1;
     width: 100vw;
-    background: rgba(0, 0, 0, .2);
   }
 
   .mapHolder {
@@ -136,73 +150,10 @@ export default {
 
 <!-- This should generally be the only global CSS in the app. -->
 <style lang="scss">
-  // Import Bulma's core
   @import '~bulma/sass/utilities/_all';
-
-  // Set your colors
-  $primary: #01b636;
-  $primary-invert: #fe49c9;
-  $twitter: #7ed1ea;
-  $twitter-invert: #812e15;
-
-  // Setup $colors to use as bulma classes (e.g. 'is-twitter')
-  $colors: (
-      'white': (
-          $white,
-          $black,
-      ),
-      'black': (
-          $black,
-          $white,
-      ),
-      'light': (
-          $light,
-          $light-invert,
-      ),
-      'dark': (
-          $dark,
-          $dark-invert,
-      ),
-      'primary': (
-          $primary,
-          $primary-invert,
-      ),
-      'info': (
-          $info,
-          $info-invert,
-      ),
-      'success': (
-          $success,
-          $success-invert,
-      ),
-      'warning': (
-          $warning,
-          $warning-invert,
-      ),
-      'danger': (
-          $danger,
-          $danger-invert,
-      ),
-      'twitter': (
-          $twitter,
-          $twitter-invert,
-      ),
-  );
-
-  // Links
-  $link: $primary;
-  $link-invert: $primary-invert;
-  $link-focus-border: $primary;
-
-  // Import Bulma and Buefy styles
   @import '~bulma';
   @import '~buefy/src/scss/buefy';
 
-  // Allow element/type selectors, because this is global CSS.
-  // stylelint-disable selector-max-type, selector-class-pattern
-
-  // Normalize default styles across browsers,
-  // https://necolas.github.io/normalize.css/
   @import '~normalize.css/normalize.css';
   // Style loading bar between pages.
   // https://github.com/rstacruz/nprogress

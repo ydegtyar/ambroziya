@@ -38,7 +38,7 @@ export default {
 
 <template>
   <ul :class="$style.container">
-    <span v-if="loggedIn">
+    <span v-if="!loggedIn">
     <router-link to="/login">
       <b-button type="is-link">
         Login

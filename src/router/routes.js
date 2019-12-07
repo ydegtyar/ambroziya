@@ -15,11 +15,20 @@ export default [
         component: () => lazyLoadView(import('./views/login.vue')),
       },
       {
-        path: '/bush',
-        name: 'bush',
+        path: '/bushes',
+        name: 'newBush',
         props: {
           modalActive: true,
         },
+        component: () => lazyLoadView(import('@views/NewBush.vue')),
+      },
+      {
+        path: '/bushes/:id',
+        name: 'bushes',
+        props: (route) => ({
+          id: route.params.id,
+          modalActive: true,
+        }),
         component: () => lazyLoadView(import('./views/Bush.vue')),
       },
     ],

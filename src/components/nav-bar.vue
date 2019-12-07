@@ -38,29 +38,49 @@ export default {
 
 <template>
   <ul :class="$style.container">
-    <b-button type="is-link">
-      <router-link :to="login">
+    <span v-if="loggedIn">
+    <router-link to="/login">
+      <b-button type="is-link">
         Login
-      </router-link>
-    </b-button>
-    <NavBarRoutes :routes="persistentNavRoutes" />
-    <NavBarRoutes v-if="loggedIn" :routes="loggedInNavRoutes" />
-    <NavBarRoutes v-else :routes="loggedOutNavRoutes" />
+      </b-button>
+    </router-link>
+    </span>
+    <span v-else>
+       <router-link to="/logout">
+      <b-button type="is-link">
+        Logout
+      </b-button>
+    </router-link>
+<!--       <router-link to="/login">-->
+      <!--      <b-button type="is-link">-->
+      <!--        Login-->
+      <!--      </b-button>-->
+      <!--    </router-link>-->
+    </span>
+
+
+    <!--    <button class="button is-primary is-medium"-->
+    <!--            @click="isComponentModalActive = true">-->
+    <!--      Launch component modal-->
+    <!--    </button>-->
+
+    <!--    <NavBarRoutes :routes="persistentNavRoutes"/>-->
+    <!--    <NavBarRoutes v-if="loggedIn" :routes="loggedInNavRoutes"/>-->
+    <!--    <NavBarRoutes v-else :routes="loggedOutNavRoutes"/>-->
   </ul>
 </template>
 
 <style lang="scss" module>
-@import '@design';
+  @import '@design';
 
-.container {
-  padding: 0;
-  margin: 0 0 $size-grid-padding;
-  text-align: center;
-  list-style-type: none;
+  .container {
+    padding: 0;
+    text-align: center;
+    list-style-type: none;
 
-  > li {
-    display: inline-block;
-    margin-right: $size-grid-padding;
+    > li {
+      display: inline-block;
+      margin-right: $size-grid-padding;
+    }
   }
-}
 </style>

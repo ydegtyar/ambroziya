@@ -8,16 +8,17 @@ export default {
 
 <template>
   <div class="overlayContainer">
-    <NavBar />
-    <slot />
+    <NavBar/>
+    <slot/>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.overlayContainer {
-  display: flex;
-  width: 100%;
-}
+  .overlayContainer {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
 </style>
 
 <!--<style lang="scss" module>-->

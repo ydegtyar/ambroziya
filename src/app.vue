@@ -67,7 +67,7 @@ export default {
 
       center: L.latLng(48.50432, 32.261491),
 
-      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
       marker: L.latLng(48.50432, 32.261491),
 
       clickCount: 0,

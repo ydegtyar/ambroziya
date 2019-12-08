@@ -19,7 +19,7 @@
       </div>
       <div class="card-content">
         <div class="media">
-<!--          <b-button type="is-danger">-->
+          <!--          <b-button type="is-danger">-->
           <!--            TERMINATED-->
           <!--          </b-button>-->
           <div class="media-content">
@@ -54,8 +54,8 @@
       <social-sharing
           :url="url"
           title="Ambrozone"
-          description="Bush description"
-          quote="Bush description"
+          :description="currentBush.note"
+          :quote="currentBush.note"
           hashtags="Ambrozone, bush, oh no"
           twitter-user="ydegtyar"
           inline-template
@@ -144,11 +144,15 @@ export default {
     },
   },
   async mounted() {
-    store.dispatch('bushes/current', this.id)
-
     const provider = new OpenStreetMapProvider()
-    const [result] = await provider.search({ query: `${this.currentBush.lat} ${this.currentBush.lng}` })
+
+    const res = store.dispatch('bushes/get', this.id)
+    const arrayOfAddrresses = provider.search({ query: `${this.currentBush.lat} ${this.currentBush.lng}` })
+    const [result] = await arrayOfAddrresses
     this.address = result
+    await res
+    await store.dispatch('bushes/current', this.id)
+    this.loaded = false
   },
   page: {
     title: 'Bush',

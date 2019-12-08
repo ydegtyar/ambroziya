@@ -43,7 +43,12 @@ export const actions = {
 // Private helpers
 // ===
 function getSavedState(key) {
-  return JSON.parse(window.localStorage.getItem(key)).map(bush => new Bush(bush))
+  let items = JSON.parse(window.localStorage.getItem(key))
+  if (!items) {
+    return null
+  }
+  console.log(items)
+  return items.map(bush => new Bush(bush))
 }
 
 function saveState(key, state) {

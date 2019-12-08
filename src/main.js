@@ -1,15 +1,19 @@
 import Vue from 'vue'
 import App from './app.vue'
+import axios from 'axios'
 import router from '@router'
 import store from '@state/store'
 import '@components/_globals'
 import Buefy from 'buefy'
-import 'buefy/dist/buefy.css'
 
+import 'buefy/dist/buefy.css'
 import { LMap, LTileLayer, LMarker, LIcon, LTooltip } from 'vue2-leaflet'
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 const  SocialSharing = require('vue-social-sharing');
+
+axios.defaults.baseURL = 'https://cors-anywhere.herokuapp.com/https://ambr.md.kr.ua/'
+
 
 Vue.use(SocialSharing);
 
@@ -38,7 +42,6 @@ if (process.env.VUE_APP_TEST === 'e2e') {
 }
 
 Vue.use(Buefy)
-
 const app = new Vue({
   router,
   store,
@@ -53,9 +56,9 @@ if (process.env.VUE_APP_TEST === 'e2e') {
   window.__app__ = app
 }
 
-if ('serviceWorker' in navigator) {
-  // Use the window load event to keep the page load performant
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js');
-  });
-}
+// if ('serviceWorker' in navigator) {
+//   // Use the window load event to keep the page load performant
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker.register('/service-worker.js');
+//   });
+// }

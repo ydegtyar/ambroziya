@@ -1,35 +1,49 @@
 import bushesApi from '../../api/bushes'
+import Bush from '@src/entities/bush'
 
 export const state = {
-  init: false,
   bushes: getSavedState('bushes') || [],
+  current: null,
 }
 
 export const mutations = {
   SET_BUSHES(state, bushes) {
-    state.bushes = bushes
+    console.log(bushes)
+    state.bushes = bushes.map(bush => new Bush(bush))
     saveState('bushes', bushes)
+  },
+  SET_CURRENT(state, id) {
+    state.current = id
   },
 }
 
 export const getters = {
   bushes({ bushes }) {
+    console.log('getter bushes')
     return bushes
+  },
+  currentBush({ bushes, current }) {
+    const [bush] = bushes.filter(bush => bush.id == current)
+    return bush
   },
 }
 
 export const actions = {
   async get({ commit }) {
-    const bushes = await bushesApi.get()
-    commit('SET_BUSHES', bushes)
-    return bushes
+    const { data } = await bushesApi.get()
+    commit('SET_BUSHES', data.data)
+    return data.data
+  },
+  current({ commit }, id) {
+    commit('SET_CURRENT', id)
   },
 }
+
 // ===
 // Private helpers
 // ===
 function getSavedState(key) {
-  return JSON.parse(window.localStorage.getItem(key))
+  return JSON.parse(window.localStorage.getItem(key)).map(bush => new Bush(bush))
 }
 
 function saveState(key, state) {

@@ -15,7 +15,13 @@
           @click="mapClicked"
       >
         <l-control-zoom position="bottomleft"/>
-        <ochag :latlng="circle.center" :radius="zoom" @click.stop.prevent="showOchag"/>
+        <ochag
+            v-for="bush in bushes"
+            :key="bush.id"
+            :latlng="bush.latlng"
+            :id="bush.id"
+            @click.stop="showOchag"
+        />
         <l-marker v-if="newMarkerShow" :lat-lng="newMarkerCoord">
           <l-tooltip :options="{ permanent: true, interactive: true }">
             <b-button type="is-danger" @click.stop="goToNewBush">Add new bush!</b-button>
@@ -30,7 +36,6 @@
               :popup-anchor="[-3, -76]"
           />
         </l-marker>
-        <ochag v-for="bush in bushes" :key="bush.id" :latlng="bush.lat" :radius="zoom" @click.stop="showOchag"/>
         <l-tile-layer :url="url"/>
       </l-map>
     </div>
@@ -51,7 +56,7 @@ export default {
     'l-control-zoom': LControlZoom,
     'ochag': Ochag,
     'l-feature-group': LFeatureGroup,
-    'l-grid-layer': LGridLayer
+    'l-grid-layer': LGridLayer,
     // 'l-icon':LIcon
     // 'bushIcon': BushIcon,
   },
@@ -74,7 +79,7 @@ export default {
       delay: 300,
     }
   },
-  async mounted() {
+  mounted() {
     store.dispatch('bushes/get')
 
     if (navigator.geolocation) {
@@ -82,7 +87,7 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters('bushes', ['bushes']),
+    ...mapGetters('bushes', ['bushes']),
   },
   page: {
     // All subcomponent titles will be injected into this template.
@@ -92,19 +97,15 @@ export default {
     },
   },
   methods: {
-    featGroup(e) {
-      console.log(e, 'fet')
-    },
     centerByPosition(position) {
-      // const { coords: { latitude, longitude } } = position
-      // this.center = L.latLng(latitude, longitude)
-      // this.zoom = 14
+      const { coords: { latitude, longitude } } = position
+      this.center = L.latLng(latitude, longitude)
+      this.zoom = 14
     },
     showOchag(e) {
       console.log('onchage', e)
     },
     mapClicked(e) {
-      console.log(e.target)
       this.clickCount++
 
       if (this.clickCount === 1) {

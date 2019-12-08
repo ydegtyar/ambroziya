@@ -8,10 +8,14 @@
       :on-cancel="back"
       :can-cancel="false"
       scroll="keep"
+      full-screen
       @close="back"
   >
-    <div class="modal-card" style="width: auto">
-      <form @submit.prevent="submit">
+    <form @submit.prevent="submit">
+      <div class="modal-card" style="width: auto">
+        <input type="hidden" name="lat" :value="$route.query.lat">
+        <input type="hidden" name="lng" :value="$route.query.lng">
+        <input type="hidden" name="name" value="Bush in Kropyvnytskyi">
         <header class="modal-card-head">
           <p class="modal-card-title">Add new bush</p>
         </header>
@@ -49,6 +53,7 @@
 
           <b-field label="Description">
             <b-input
+                name="note"
                 type="text"
                 :value="description"
                 placeholder="What you think about this bush"
@@ -59,7 +64,7 @@
             <b-upload
                 v-if="isMobile"
                 style="margin-right: 15px;"
-                :value="file"
+                v-model="file"
                 type="file"
                 accept="image/*"
                 capture="camera"
@@ -73,10 +78,9 @@
           </b-field>
 
           <b-upload
-              :value="uploadedFiles"
+              v-model="uploadedFiles"
               type="file"
               accept="image/*"
-              capture="camera"
               multiple
           >
             <a class="button is-primary">
@@ -84,6 +88,9 @@
               <span>Add photo from gallery</span>
             </a>
           </b-upload>
+          <br v-if="uploadedFiles && uploadedFiles.length">
+          <img v-for="url in uploadedFilesUrls" :key="url" :src="url" :alt="url"
+               style="max-width: 100px; max-height: 100px; margin: 5px">
           <h5>
             We'll try notify some responsible peoples
           </h5>
@@ -92,14 +99,16 @@
           <button class="button" type="button" @click="back">Cancel</button>
           <button class="button is-primary">+ Add</button>
         </footer>
-      </form>
-    </div>
+      </div>
+    </form>
   </b-modal>
 </template>
 
 <script>
 import { OpenStreetMapProvider } from 'leaflet-geosearch'
 import isMobile from 'ismobilejs'
+import bushesApi from '../../api/bushes'
+import store from '../../state/store'
 
 export default {
   props: {
@@ -130,6 +139,13 @@ export default {
     center() {
       return L.latLng(this.$route.query.lat, this.$route.query.lng)
     },
+    uploadedFilesUrls() {
+      if (!this.uploadedFiles || !this.uploadedFiles.length) {
+        return []
+      }
+
+      return this.uploadedFiles.map(file => window.URL.createObjectURL(file))
+    },
   },
   async mounted() {
     if (!(this.$route.query.lat && this.$route.query.lng)) {
@@ -140,8 +156,23 @@ export default {
     this.address = result ? result.label : ''
   },
   methods: {
-    submit(e) {
-      console.log(e)
+    async submit(e) {
+      const formData = new FormData(e.target)
+      console.log(this.file, this.uploadedFiles)
+      let image
+      if (this.file) {
+        image = this.file[0]
+      } else if (this.uploadedFiles) {
+        image = this.uploadedFiles[0]
+      }
+      if (image) {
+        formData.append('image', image)
+      }
+      console.log(image)
+      await bushesApi.create(formData)
+      store.dispatch('bushes/get')
+      this.$router.push({ name: 'home' })
+      alert('New bush added')
     },
     back() {
       this.$router.push({ name: 'home' })

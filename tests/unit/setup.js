@@ -26,7 +26,7 @@ _.mixin({
 // Force Axios to use the XHR adapter so that it behaves
 // more like it would in a browser environment.
 axios.defaults.adapter = require('axios/lib/adapters/xhr')
-
+axios.defaults.baseURL = 'https://ambr.md.kr.ua/'
 // ===
 // Configure Vue
 // ===

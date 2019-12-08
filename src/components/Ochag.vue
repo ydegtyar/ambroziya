@@ -41,9 +41,7 @@ export default {
       type: LatLng,
       required: true,
     },
-    radius: {
-      type: Number, required: true,
-    },
+
     color: { type: String, default: 'red' },
     description: { type: String, default: 'Oh, its ambroziiya' },
   },

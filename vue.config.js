@@ -16,8 +16,9 @@ module.exports = {
     // it's necessary for some Vetur autocompletions.
     config.resolve.extensions.delete('.vue')
 
-    config.plugin('workbox').use(WorkboxPlugin.GenerateSW)
-    console.log(config.plugins)
+    if (process.env.NODE_ENV === 'production') {
+      config.plugin('workbox').use(WorkboxPlugin.GenerateSW)
+    }
     // config.plugins.push(new WorkboxPlugin.GenerateSW())
 
     // Only enable performance hints for production builds,

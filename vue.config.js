@@ -1,4 +1,5 @@
 const appConfig = require('./src/app.config')
+const WorkboxPlugin = require('workbox-webpack-plugin')
 
 /** @type import('@vue/cli-service').ProjectOptions */
 module.exports = {
@@ -15,12 +16,16 @@ module.exports = {
     // it's necessary for some Vetur autocompletions.
     config.resolve.extensions.delete('.vue')
 
+    config.plugin('workbox').use(WorkboxPlugin.GenerateSW)
+    console.log(config.plugins)
+    // config.plugins.push(new WorkboxPlugin.GenerateSW())
+
     // Only enable performance hints for production builds,
     // outside of tests.
     config.performance.hints(
       process.env.NODE_ENV === 'production' &&
-        !process.env.VUE_APP_TEST &&
-        'warning'
+      !process.env.VUE_APP_TEST &&
+      'warning',
     )
   },
   css: {
@@ -32,8 +37,8 @@ module.exports = {
   devServer: {
     ...(process.env.API_BASE_URL
       ? // Proxy API endpoints to the production base URL.
-        { proxy: { '/api': { target: process.env.API_BASE_URL } } }
+      { proxy: { '/api': { target: process.env.API_BASE_URL } } }
       : // Proxy API endpoints a local mock API.
-        { before: require('./tests/mock-api') }),
+      { before: require('./tests/mock-api') }),
   },
 }

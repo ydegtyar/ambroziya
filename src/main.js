@@ -52,3 +52,10 @@ if (process.env.VUE_APP_TEST === 'e2e') {
   // such as `cy.logIn()`.
   window.__app__ = app
 }
+
+if ('serviceWorker' in navigator) {
+  // Use the window load event to keep the page load performant
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js');
+  });
+}

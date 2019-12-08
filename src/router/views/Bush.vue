@@ -8,8 +8,8 @@
       :on-cancel="back"
       :can-cancel="false"
       scroll="keep"
-      @close="back"
       full-screen
+      @close="back"
   >
     <div class="modal-card" style="width: auto">
       <div class="card-image">
@@ -17,14 +17,11 @@
           <img :src="currentBush.image" alt="Image">
         </figure>
       </div>
-
-      <!--        <header class="modal-card-head" v-if="false">-->
-      <!--          <b-button type="is-danger">-->
-      <!--            TERMINATED-->
-      <!--          </b-button>-->
-      <!--        </header>-->
       <div class="card-content">
         <div class="media">
+<!--          <b-button type="is-danger">-->
+          <!--            TERMINATED-->
+          <!--          </b-button>-->
           <div class="media-content">
             <p class="title is-4">
               <img src="/ambrozia/140/ambr-red.png" alt="terminated" v-if="currentBush.status === 1">
@@ -133,6 +130,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('auth', ['currentUser']),
     ...mapGetters('bushes', ['currentBush']),
   },
   methods: {

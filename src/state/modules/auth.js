@@ -28,16 +28,24 @@ export const actions = {
   },
 
   // Logs in the current user.
-  logIn({ commit, dispatch, getters }, { username, password } = {}) {
-    if (getters.loggedIn) return dispatch('validate')
+  async logIn({ commit, dispatch, getters }, { username, password } = {}) {
+    if (getters.loggedIn) {
+      return dispatch('validate')
+    }
 
-    return axios
-      .post('/api/session', { username, password })
-      .then((response) => {
-        const user = response.data
-        commit('SET_CURRENT_USER', user)
-        return user
-      })
+    const { data: { access_token: accessToken, status } } = await axios.post('/api/auth', { name: username, password })
+    commit('SET_CURRENT_USER', { status })
+
+    // console.log(data)
+    // const { access_token } = data
+    // console.log(accessToken)
+    //
+    // return axios
+    //   .post('/api/session', { username, password })
+    //   .then((response) => {
+    //     const user = response.data
+    //     return user
+    //   })
   },
 
   // Logs out the current user.

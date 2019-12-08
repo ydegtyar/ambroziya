@@ -1,4 +1,5 @@
 import Login from './login.vue'
+import axios from 'axios'
 
 describe('@views/login', () => {
   it('is a valid view', () => {
@@ -62,14 +63,8 @@ function mountLogin() {
         auth: {
           actions: {
             logIn(_, { username, password }) {
-              if (
-                username === 'correctUsername' &&
-                password === 'correctPassword'
-              ) {
-                return Promise.resolve('testToken')
-              } else {
-                return Promise.reject(new Error('testError'))
-              }
+              axios.post('/api/login', { username, password })
+
             },
           },
         },

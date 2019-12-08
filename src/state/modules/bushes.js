@@ -8,7 +8,6 @@ export const state = {
 
 export const mutations = {
   SET_BUSHES(state, bushes) {
-    console.log(bushes)
     state.bushes = bushes.map(bush => new Bush(bush))
     saveState('bushes', bushes)
   },
@@ -19,7 +18,6 @@ export const mutations = {
 
 export const getters = {
   bushes({ bushes }) {
-    console.log('getter bushes')
     return bushes
   },
   currentBush({ bushes, current }) {

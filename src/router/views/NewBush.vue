@@ -158,7 +158,6 @@ export default {
   methods: {
     async submit(e) {
       const formData = new FormData(e.target)
-      console.log(this.file, this.uploadedFiles)
       let image
       if (this.file) {
         image = this.file[0]
@@ -168,7 +167,6 @@ export default {
       if (image) {
         formData.append('image', image)
       }
-      console.log(image)
       await bushesApi.create(formData)
       store.dispatch('bushes/get')
       this.$router.push({ name: 'home' })

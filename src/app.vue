@@ -102,9 +102,7 @@ export default {
       this.center = L.latLng(latitude, longitude)
       this.zoom = 14
     },
-    showOchag(e) {
-      console.log('onchage', e)
-    },
+
     mapClicked(e) {
       this.clickCount++
 

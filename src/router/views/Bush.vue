@@ -11,7 +11,7 @@
       full-screen
       @close="back"
   >
-    <div class="modal-card" style="width: auto">
+    <div class="modal-card" style="width: auto" v-if="currentBush">
       <div class="card-image">
         <figure class="image is-4by3">
           <img :src="currentBush.image" alt="Image" style="max-width: 320px; max-height: 320px">
@@ -144,14 +144,13 @@ export default {
     },
   },
   async mounted() {
+    store.dispatch('bushes/current', this.$route.params.id)
     const provider = new OpenStreetMapProvider()
-
     const res = store.dispatch('bushes/get', this.id)
     const arrayOfAddrresses = provider.search({ query: `${this.currentBush.lat} ${this.currentBush.lng}` })
     const [result] = await arrayOfAddrresses
     this.address = result
     await res
-    await store.dispatch('bushes/current', this.id)
     this.loaded = false
   },
   page: {

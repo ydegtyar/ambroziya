@@ -10,7 +10,6 @@ export default class Bush {
   votes = 0
 
   constructor(obj) {
-    console.log(obj)
     if (obj) {
       this.id = Number(obj.id)
       this.name = obj.name

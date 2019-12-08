@@ -14,7 +14,7 @@
     <div class="modal-card" style="width: auto">
       <div class="card-image">
         <figure class="image is-4by3">
-          <img :src="currentBush.image" alt="Image">
+          <img :src="currentBush.image" alt="Image" style="max-width: 320px; max-height: 320px">
         </figure>
       </div>
       <div class="card-content">
